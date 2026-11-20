@@ -1,4 +1,4 @@
-package com.example.kartonik
+package com.kombajnlabs.kartonik
 
 import io.flutter.embedding.android.FlutterActivity
 
