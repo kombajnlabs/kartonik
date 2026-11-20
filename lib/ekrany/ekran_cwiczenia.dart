@@ -1,3 +1,5 @@
+import 'dart:math' as matematyka;
+
 import 'package:flutter/material.dart';
 
 import '../modele/fiszka.dart';
@@ -22,12 +24,15 @@ class _StanCwiczenia extends State<EkranCwiczenia>
   int liczbaOcenionych = 0;
   bool pokazTyl = false;
   double przesuniecie = 0;
+  late final List<Fiszka> fiszkiSesji;
 
-  Fiszka get aktualna => widget.zestaw.fiszki[indeks];
+  Fiszka get aktualna => fiszkiSesji[indeks];
 
   @override
   void initState() {
     super.initState();
+    fiszkiSesji = List<Fiszka>.of(widget.zestaw.fiszki)
+      ..shuffle(matematyka.Random());
     kontrolerObrotu = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 450),
@@ -50,7 +55,7 @@ class _StanCwiczenia extends State<EkranCwiczenia>
   }
 
   void przejdzDo(int nowyIndeks) {
-    if (nowyIndeks < 0 || nowyIndeks >= widget.zestaw.fiszki.length) {
+    if (nowyIndeks < 0 || nowyIndeks >= fiszkiSesji.length) {
       return;
     }
     setState(() {
@@ -80,7 +85,7 @@ class _StanCwiczenia extends State<EkranCwiczenia>
       }
     });
 
-    if (indeks == widget.zestaw.fiszki.length - 1) {
+    if (indeks == fiszkiSesji.length - 1) {
       await pokazPodsumowanie();
       return;
     }
@@ -93,7 +98,7 @@ class _StanCwiczenia extends State<EkranCwiczenia>
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         icon: Icon(
-          punkty == widget.zestaw.fiszki.length
+          punkty == fiszkiSesji.length
               ? Icons.emoji_events
               : Icons.flag_rounded,
           color: const Color(0xff6750a4),
@@ -101,7 +106,7 @@ class _StanCwiczenia extends State<EkranCwiczenia>
         ),
         title: const Text('Sesja zakończona'),
         content: Text(
-          'Twój wynik: $punkty/${widget.zestaw.fiszki.length} punktów',
+          'Twój wynik: $punkty/${fiszkiSesji.length} punktów',
           textAlign: TextAlign.center,
         ),
         actions: [
@@ -119,7 +124,7 @@ class _StanCwiczenia extends State<EkranCwiczenia>
 
   @override
   Widget build(BuildContext context) {
-    final liczbaFiszek = widget.zestaw.fiszki.length;
+    final liczbaFiszek = fiszkiSesji.length;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.zestaw.nazwa),

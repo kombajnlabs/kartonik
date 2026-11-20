@@ -1,3 +1,5 @@
+import 'dart:math' as matematyka;
+
 import 'package:flutter/material.dart';
 
 import '../modele/fiszka.dart';
@@ -56,6 +58,22 @@ class _StanEkranuGlownego extends State<EkranGlowny> {
           ),
         )
         .then((_) => setState(() {}));
+  }
+
+  void otworzLosowaSesje() {
+    final fiszki = widget.zestawy.expand((zestaw) => zestaw.fiszki).toList()
+      ..shuffle(matematyka.Random());
+    if (fiszki.isEmpty) {
+      return;
+    }
+
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => EkranCwiczenia(
+          zestaw: Zestaw(nazwa: 'Losowa sesja', fiszki: fiszki),
+        ),
+      ),
+    );
   }
 
   Future<void> usunZestaw(Zestaw zestaw) async {
@@ -146,35 +164,60 @@ class _StanEkranuGlownego extends State<EkranGlowny> {
                       ),
                     ],
                   ),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Czas na naukę',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w600,
-                              ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Czas na naukę',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(height: 7),
+                                Text(
+                                  '${widget.zestawy.length} ${widget.zestawy.length == 1 ? 'zestaw gotowy' : 'zestawów gotowych'}',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 7),
-                            Text(
-                              '${widget.zestawy.length} ${widget.zestawy.length == 1 ? 'zestaw gotowy' : 'zestawów gotowych'}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                          const Icon(
+                            Icons.auto_awesome,
+                            color: Color(0xffffe08a),
+                            size: 52,
+                          ),
+                        ],
                       ),
-                      const Icon(
-                        Icons.auto_awesome,
-                        color: Color(0xffffe08a),
-                        size: 52,
+                      const SizedBox(height: 18),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed:
+                              widget.zestawy.any(
+                                (zestaw) => zestaw.fiszki.isNotEmpty,
+                              )
+                              ? otworzLosowaSesje
+                              : null,
+                          icon: const Icon(Icons.shuffle_rounded),
+                          label: const Text(
+                            'Losuj fiszki ze wszystkich zestawów',
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Colors.white54),
+                            backgroundColor: Colors.white12,
+                          ),
+                        ),
                       ),
                     ],
                   ),
