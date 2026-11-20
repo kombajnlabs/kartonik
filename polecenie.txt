@@ -1,0 +1,7 @@
+Zaprogramuj aplikację do fiszek. 
+Na głównej mają być zestawy fiszek oraz guzik do tworzenia zestawu. Pole zestawu ma zawierać nazwę, liczbę fiszek w środku oraz dwa guziki: dodaj fiszkę i ćwicz.
+Po kliknięciu guzika 'ćwicz' będzie się uruchamiał tryb, gdzie będzie się pokazywał duży przód fiszki, a po kliknięciu na fiszkę ma być animacja odwracania się i ma się pokazać tył fiszki z odpowiedzią. Dodaj pod fiszką guziki 'następna' i 'poprzednia', niech również działają gesty przesuwania w prawo i w lewo, jak na Tinderze.
+Po kliknięciu guzika dodawania zestawu, ma się otwierać strona z polem na nazwę oraz opcje początkowego dodania fiszek.
+Po kliknięciu guzika 'dodaj fiszkę' w polu zestawu, ma się otwierać strona z możliwością dodawania fiszek.
+
+W lib/ możesz tworzyć foldery i pliki, jednak pamiętaj o zasadzie polskości.
